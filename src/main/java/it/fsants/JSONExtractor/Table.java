@@ -45,7 +45,16 @@ public class Table {
             return this.currentRow <= this.endRow;
         }
         Row r = this.sheet.getRow(this.currentRow);
-        return r != null;
+        return r != null && this.isRowEmpty(r);
+    }
+
+    private boolean isRowEmpty(Row row) {
+        boolean empty = false;
+        for (int i = this.startCol; i < this.endCol; i++) {
+            Cell c = row.getCell(i);
+            empty = empty | (c != null && !c.getCellType().equals(CellType.BLANK));
+        }
+        return empty;
     }
 
     /**
