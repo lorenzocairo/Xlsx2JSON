@@ -48,11 +48,17 @@ public class Observation2JSON {
             o.put("observations", obs);
 
             String date = sheet.getRow(0).getCell(1).getStringCellValue();
-            o.put("date", date);
+            o.put("date", convertDate(date));
 
             return o;
         } catch (Exception e) {
             throw new Xlsx2JSONException(String.format("Error extracting file %s: %s", file.getName(), e.getMessage()));
         }
+    }
+
+    private static String convertDate(String date) {
+        if (date == null) return null;
+        final String[] arr = date.split("\\.");
+        return String.format("%s-%s-%s", arr[2], arr[1], arr[0]);
     }
 }
